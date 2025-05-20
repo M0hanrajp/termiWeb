@@ -2,16 +2,16 @@
 
 A lightweight Linux service that exposes a simple web‑based terminal UI. Users type arbitrary approved commands (e.g., `ping`, `ls`, `netstat`) into an HTML/JS front‑end; behind the scenes, a C daemon receives each command via an HTTP POST, securely spawns the requested binary, captures its stdout/stderr, and returns the results as JSON for display.
 
-![Image](https://github.com/user-attachments/assets/60630348-aa67-429b-aa32-e097bea633d4)
+![Image](https://github.com/user-attachments/assets/0dd3269e-fa7c-4df8-8df4-06d3bc6827c2)
 
-## 2. Use Cases
+## Use Cases
 
 1. **Learning & Prototyping**: Explore HTTP servers, JSON APIs, and Unix process management in C without exposing a full shell.
 2. **Remote Diagnostics**: Provide a restricted, web‑accessible interface to run network or system‑info commands on a headless server.
 3. **Embedded Systems**: Offer simple command invocation on devices (e.g., routers) with minimal UI.
 4. **Custom Tooling**: Build atop this foundation to add features like streaming, authentication, or plugin hooks.
 
-## 3. High‑Level Architecture
+## High‑Level Architecture
 
 ```
 [Browser UI] ⇄ HTTP(S) ⇄ [C Daemon HTTP Server] ⇄ fork/exec ⇄ [Child Process] ⇄ pipes ⇄ stdout/stderr
@@ -82,9 +82,9 @@ a generic, user-space command you run via your HTML/JS “shell” — whether i
 | Client + TCP   | Response | (parse JSON & update) |           | (<pre> output) |
 +----------------+          +-----------------------+           +----------------+
 ```
-## 4. Detailed Requirements
+## Detailed Requirements
 
-### 4.1 Functional Requirements
+### Functional Requirements
 
 * Serve static HTML/CSS/JS from `localhost` (configurable port).
 * Expose `POST /run` accepting JSON `{ cmd: string, args: string[] }`.
@@ -99,14 +99,14 @@ a generic, user-space command you run via your HTML/JS “shell” — whether i
   * Respond with `{ stdout, stderr, exitCode }`.
 * Handle errors (invalid JSON, disa allowed commands, timeouts) gracefully with HTTP error codes.
 
-### 4.2 Non‑Functional Requirements
+### Non‑Functional Requirements
 
 * **Security**: no shell interpolation; binaries run under restricted privileges or namespace.
 * **Performance**: lightweight — minimal dependencies, low memory footprint.
 * **Reliability**: clean resource cleanup; prevent zombie processes.
 * **Extensibility**: easy to add commands to the allow‑list; placeholder for authentication or streaming.
 
-## 5. Technology & Libraries
+## Technology & Libraries
 
 | Layer         | Language/Library                                                                  | Purpose                       |
 | ------------- | --------------------------------------------------------------------------------- | ----------------------------- |
@@ -120,7 +120,7 @@ a generic, user-space command you run via your HTML/JS “shell” — whether i
 | Build Tools   | `gcc`/`clang`, `make`                                                             | Compilation                   |
 | Deployment    | systemd unit                                                                      | Daemonize on startup          |
 
-### 5.1 Security Considerations
+### Security Considerations
 
 * **Allow‑list only**: no arbitrary code execution.
 * **Avoid shell**: use `execvp()` or `execv()` (no `/bin/sh -c`).
@@ -132,5 +132,4 @@ a generic, user-space command you run via your HTML/JS “shell” — whether i
 
 _This is a wip readme, will be updated overtime!_
 
-_for more questions on this refer here_
-
+_for more questions on this refer [here](https://github.com/M0hanrajp/termiWeb/blob/main/faq/faq.md#qa)_
