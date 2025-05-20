@@ -1,6 +1,8 @@
-## 1. Introduction
+# termiWeb :pager:
 
 A lightweight Linux service that exposes a simple web‑based terminal UI. Users type arbitrary approved commands (e.g., `ping`, `ls`, `netstat`) into an HTML/JS front‑end; behind the scenes, a C daemon receives each command via an HTTP POST, securely spawns the requested binary, captures its stdout/stderr, and returns the results as JSON for display.
+
+![Image](https://github.com/user-attachments/assets/60630348-aa67-429b-aa32-e097bea633d4)
 
 ## 2. Use Cases
 
@@ -88,13 +90,13 @@ a generic, user-space command you run via your HTML/JS “shell” — whether i
 * Expose `POST /run` accepting JSON `{ cmd: string, args: string[] }`.
 * Maintain an allow‑list of permitted commands.
 * For each request:
-  1. Validate command.
-  2. Create stdout/stderr pipes.
-  3. Fork & redirect descriptors.
-  4. Exec the binary.
-  5. Read from pipes until EOF.
-  6. Wait for exit; gather exit code.
-  7. Respond with `{ stdout, stderr, exitCode }`.
+  * Validate command.
+  * Create stdout/stderr pipes.
+  * Fork & redirect descriptors.
+  * Exec the binary.
+  * Read from pipes until EOF.
+  * Wait for exit; gather exit code.
+  * Respond with `{ stdout, stderr, exitCode }`.
 * Handle errors (invalid JSON, disa allowed commands, timeouts) gracefully with HTTP error codes.
 
 ### 4.2 Non‑Functional Requirements
